@@ -27,7 +27,7 @@
 	</sql>
 	
 	<resultMap type="EmpVO" id="empResultMap">
-		<id property="employeeId" column="EMPLOYEE_ID"></id>
+		<id property="employeeId" column="EMPLOYEE_ID" />
 		<result property="firstName" column="FIRST_NAME" />
 		<result property="phone" column="PHONE_NUMBER" />
 	</resultMap>

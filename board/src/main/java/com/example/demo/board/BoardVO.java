@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardVO {
-	Integer board_no;
+	Integer boardNo;
 	String title;
 	String content;
 	String writer;
-	Date write_date;
-	Integer click_cnt;
+	Date writeDate;
+	Integer clickCnt;
 	String image;
 }

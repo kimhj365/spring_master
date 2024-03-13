@@ -24,7 +24,7 @@ public class EmpController {
 	@RequestMapping("/empList")
 	public String empList(Model model){ 
 		model.addAttribute("empList", dao.getEmpList());
-	return "empList"; 
+		return "empList"; 
 	}
 
 }
