@@ -19,7 +19,7 @@ public class EmpVO {
 	String lastName;
 	String email;
 	String phoneNumber;
-	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date hireDate;
 	Integer salary;
 	String jobId;
@@ -27,4 +27,6 @@ public class EmpVO {
 	String departmentId;
 	String managerId;
 	String phone;
+	
+	String photo;
 }

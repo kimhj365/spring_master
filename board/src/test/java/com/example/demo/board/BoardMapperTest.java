@@ -15,7 +15,7 @@ public class BoardMapperTest {
 	@Autowired BoardMapper mapper; 
 	
 	// 게시글 검색, 페이징
-//	@Test
+	@Test
 	public void boardList() {
 		BoardVO vo = BoardVO.builder()
 //						.title("글")
@@ -32,7 +32,7 @@ public class BoardMapperTest {
 								+ bvo.getContent() + " : "
 								+ bvo.getWriter());
 		}
-		System.out.println("결과는 : " + list.size());
+		System.out.println("결과건수 : " + list.size());
 	}
 	
 	// 게시물 단건조회
@@ -73,7 +73,7 @@ public class BoardMapperTest {
 	}
 	
 	// 게시글 삭제
-	@Test
+//	@Test
 	public void deleteBoard() {
 		int boardNo = 41;
 		int result = mapper.deleteBoard(boardNo);

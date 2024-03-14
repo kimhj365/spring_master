@@ -31,15 +31,16 @@ public class EmpMapperTest {
 		System.out.println("삭제건수=" + result);
 	}
 	
-//	@Test 
+	@Test 
 	public void 사원등록() {
 		// vo 객체 생성
 		EmpVO vo = EmpVO.builder()
 				//	.employeeId(300)
-					.lastName("Kim")
-					.email("kim2@email.com")
+					.lastName("Kim4")
+					.email("kim4@email.com")
 					.hireDate(new Date())
 					.jobId("AD_PRES")
+					.salary(10000)
 					.build();
 		int result = mapper.insertEmp(vo);
 		
@@ -50,7 +51,7 @@ public class EmpMapperTest {
 		
 	}
 	
-	@Test
+//	@Test
 	public void 사원전체조회() {
 		EmpVO vo = new EmpVO();
 		SearchVO svo = new SearchVO();

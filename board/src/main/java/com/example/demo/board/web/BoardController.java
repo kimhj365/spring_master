@@ -19,12 +19,12 @@ public class BoardController {
 	@RequestMapping("/ajaxBoard")
 	@ResponseBody
 	public List<BoardVO> ajaxBoard() {
-		return dao.getBoardList();
+		return dao.getBoardList(null, null);
 	}
 	
 	@RequestMapping("/boardList")
 	public String boardList(Model model) {
-		model.addAllAttributes("boardList", dao.getBoardList());
-		return "boardList"
+		model.addAttribute("boardList", dao.getBoardList(null, null));
+		return "boardList";
 	}
 }
