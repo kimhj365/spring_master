@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +32,8 @@ public class EmpController {
 	final EmpMapper mapper; // 의존성 주입(DI, Dependency Injection)
 	// 등록페이지 이동
 	@GetMapping("/emp/insert")
-	public void insert() { }
+	public void insert() { 
+	}
 	
 	// 등록 처리 --> employees 테이블에 photo 컬럼 추가
 	@PostMapping("/insert")
@@ -51,6 +53,20 @@ public class EmpController {
 	public String empList(Model model, EmpVO vo, EmpSearchVO svo){ 
 		model.addAttribute("empList", mapper.getEmpList(vo, svo));
 		return "emp/list"; 
+	}
+	
+	// 상세보기
+	@GetMapping("/emp/info/{employeeId}")
+	public String empInfo(Model model, @PathVariable int employeeId) {
+		model.addAttribute("empInfo",mapper.getEmpInfo(employeeId));
+		return "emp/info";
+	}
+	
+	// 삭제처리
+	@GetMapping("/delete/{empId}")
+	public String delete(@PathVariable int empId) {
+		mapper.deleteEmp(empId);
+		return "redirect:/emp/list";
 	}
 
 }

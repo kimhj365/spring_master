@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>info.html</title>
+</head>
+<body>
+	<h2>사원정보</h2>
+	[[${empInfo}]]
+	<table>
+		<tr>
+			<th>employee_id</th>
+			<td th:text="${empInfo.employeeId}"></td>
+		</tr>
+	</table>
+	<a th:href="@{/delete/{empId}(empId=${empInfo.employeeId})}">삭제</a>
+</body>
+</html>
