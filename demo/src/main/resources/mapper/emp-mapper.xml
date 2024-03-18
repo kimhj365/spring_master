@@ -5,13 +5,13 @@
 	
 	<sql id="condition">
 		<where>
-		 	<if test="vo.departmentId != null">
+		 	<if test="vo.departmentId != null and vo.departmentId != ''">
 		 		department_id = #{vo.departmentId}
 		 	</if>
-		 	<if test="vo.firstName != null">
+		 	<if test="vo.firstName != null and vo.firstName != ''">
 				AND first_name = #{vo.firstName}
 		 	</if>
-		 	<if test="vo.managerId != null">
+		 	<if test="vo.managerId != null and vo.managerId != ''">
 				AND manager_id = #{vo.managerId}
 		 	</if>
 		 	<if test="svo.employeeIds != null">
@@ -33,11 +33,28 @@
 		<result property="phone" column="PHONE_NUMBER" />
 	</resultMap>
 	
+	<select id="getCount" resultType="Long">
+		SELECT COUNT(*)
+		  FROM employees
+	</select>
+	
 	<select id="getEmpList" resultMap="empResultMap">
 	SELECT * FROM ( SELECT rownum rn, a.* FROM (
 	
-		SELECT rownum id, e.*
-		  FROM employees e
+		SELECT rownum id
+			   , employee_id
+			   , first_name
+			   , last_name
+		   	   , email
+			   , phone_number
+			   , hire_date
+			   , job_id
+			   , NVL(salary, 0) salary
+			   , commission_pct
+			   , manager_id
+			   , department_id
+			   , photo
+		  FROM employees
 	  <include refid="condition"></include>
 	  ORDER BY first_name		
 	  
@@ -45,7 +62,18 @@
 	</select>
 	
 	<select id="getEmpInfo" parameterType="int" resultType="EmpVO">
-		SELECT *
+		SELECT employee_id
+			   , first_name
+			   , last_name
+		   	   , email
+			   , phone_number
+			   , hire_date
+			   , job_id
+			   , salary
+			   , commission_pct
+			   , manager_id
+			   , department_id
+			   , photo  
 		  FROM employees
 		 WHERE employee_id = #{employeeId}
 	</select>
@@ -60,19 +88,19 @@
 		</selectKey>
 		INSERT INTO employees
 			(
-			  EMPLOYEE_ID
-			, FIRST_NAME
-			, LAST_NAME
-			, EMAIL
-			, PHONE_NUMBER
-			, HIRE_DATE
-			, JOB_ID
+			  employee_id
+			, first_name
+			, last_name
+			, email
+			, phone_number
+			, hire_date
+			, job_id
 			<if test="salary != null">
-			, SALARY
+			, salary
 			</if>
-			, COMMISSION_PCT
-			, MANAGER_ID
-			, DEPARTMENT_ID 
+			, commission_pct
+			, manager_id
+			, department_id 
 			)
 		VALUES
 			(
@@ -94,7 +122,7 @@
 	
 	<delete id="deleteEmp">
 		DELETE FROM employees
-		WHERE  employee_id = #{employeeId}
+		 WHERE employee_id = #{employeeId}
 	</delete>
 	
 	<select id="getStat" resultType="map">
