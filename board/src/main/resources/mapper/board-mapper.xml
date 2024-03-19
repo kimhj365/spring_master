@@ -18,14 +18,21 @@
 	</sql>
 
 	<select id="getBoardList" resultType="BoardVO">
-		SELECT * FROM ( SELECT rownum rn, a.* FROM (
+		SELECT * FROM ( SELECT ROWNUM rn, a.* FROM (
 		
-		        SELECT rownum id, board.* 
+		        SELECT ROWNUM id
+		        	   , board_no
+					   , title
+					   , content
+					   , writer
+					   , write_date
+					   , click_cnt
+					   , image 
 		          FROM board
 		      <include refid="condition" />
 		      ORDER BY board_no
 		
-		) a WHERE rownum <![CDATA[<=]]> #{svo.end} ) b WHERE rn >= #{svo.start}
+		) a WHERE ROWNUM <![CDATA[<=]]> #{svo.end} ) b WHERE rn >= #{svo.start}
 	</select>
 	
 	<select id="getBoardInfo" 
