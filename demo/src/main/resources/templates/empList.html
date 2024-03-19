@@ -65,7 +65,7 @@
 				<td th:text="${#dates.format(emp.hireDate, 'yyyy-MM-dd')}">2024-03-15</td>
 				<td th:text="${#numbers.formatInteger(emp.salary, 3,'COMMA')}">2,000</td>
 				<td>
-					<button th:if="${emp.salary} < 10000 && ${emp.salary} != null">신청</button>
+					<button th:if="${emp.salary} < 10000">신청</button>
 					<button th:unless="${emp.salary} < 10000">미신청</button>
 				</td>
 				<td>

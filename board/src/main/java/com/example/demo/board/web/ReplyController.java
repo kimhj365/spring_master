@@ -21,7 +21,7 @@ public class ReplyController {
 	@Autowired ReplyMapper dao;
 	
 	// 리스트 페이지 이동
-	@RequestMapping("/replyMng")
+	@RequestMapping("/board/replyMng")
 	public ModelAndView replyMng() {
 		ModelAndView mv = new ModelAndView("replyMng");
 		return mv;

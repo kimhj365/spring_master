@@ -1,6 +1,6 @@
 package com.example.demo.emp.web;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.common.Paging;
 import com.example.demo.emp.EmpVO;
 import com.example.demo.emp.SearchVO;
-import com.example.demo.emp.mapper.EmpMapper;
+import com.example.demo.emp.service.EmpService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,20 +25,21 @@ import lombok.RequiredArgsConstructor;
 @Controller // 컨테이너 빈 등록 + 사용자 요청 처리 커맨드 핸들러 변환
 public class EmpController {
 	
-	final EmpMapper mapper; // 의존성 주입(DI, Dependency Injection)
+	final EmpService empService; // 의존성 주입(DI, Dependency Injection)
 	
 	
-	@RequestMapping("/ajaxEmp")
-	@ResponseBody	 // 데이터만 넘겨줌(상태: OK)
-	public List<EmpVO>ajaxEmp() {
-		return mapper.getEmpList(null, null);
-	}
+//	@RequestMapping("/ajaxEmp")
+//	@ResponseBody	 // 데이터만 넘겨줌(상태: OK)
+//	public List<EmpVO>ajaxEmp() {
+//		return empService.getEmpList(null, null);
+//	}
+//	
+//	@RequestMapping("/empResult")
+//	public String result() {
+//		return "result";
+//	}
 	
-	@RequestMapping("/empResult")
-	public String result() {
-		return "result";
-	}
-	
+	// 목록조회
 	@RequestMapping("/empList")
 	public String empList(Model model, EmpVO vo, SearchVO svo, Paging pvo) {
 		
@@ -48,27 +48,18 @@ public class EmpController {
 		pvo.setPageSize(3);	// 페이지 번호 수
 		svo.setStart(pvo.getFirst());
 		svo.setEnd(pvo.getLast());
-		pvo.setTotalRecord(mapper.getCount(vo, svo));
-//		model.addAttribute("paging", pvo);
+		
+		Map<String, Object> map = empService.getEmpList(vo, svo);
+		
+		pvo.setTotalRecord((Long)map.get("count"));
+		model.addAttribute("paging", pvo);
 		
 		// 목록 조회
-		model.addAttribute("empList", mapper.getEmpList(vo, svo));
+		model.addAttribute("empList", map.get("data"));
 		return "empList";
 	}
 	
-	@PostMapping("/insert3")	// 데이터 + 상태 넘겨줌
-	public String insert3(EmpVO vo, RedirectAttributes rttr) {
-		System.out.println("등록 : " + vo);
-		rttr.addAttribute("insertResult", "성공");
-		rttr.addFlashAttribute("flashResult", "한번만 사용가능");
-		return "redirect:empResult";
-	}
-
-	@PostMapping("/insert2")	// 데이터 + 상태 넘겨줌
-	public ResponseEntity<EmpVO> insert2(EmpVO vo) {
-		return new ResponseEntity<>(vo,HttpStatus.OK);
-	}
-	
+	// 등록
 	@PostMapping("/insert")
 	public ModelAndView insert(@ModelAttribute("emp") EmpVO vo) {
 		System.out.println(vo);
@@ -84,27 +75,42 @@ public class EmpController {
 		mv.addObject("insertResult", "success");
 		mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 		return mv;
+	}	
+	
+	@PostMapping("/insert2")	// 데이터 + 상태 넘겨줌
+	public ResponseEntity<EmpVO> insert2(EmpVO vo) {
+		return new ResponseEntity<>(vo,HttpStatus.OK);
+	}
+
+	@PostMapping("/insert3")	// 데이터 + 상태 넘겨줌
+	public String insert3(EmpVO vo, RedirectAttributes rttr) {
+		System.out.println("등록 : " + vo);
+		rttr.addAttribute("insertResult", "성공");
+		rttr.addFlashAttribute("flashResult", "한번만 사용가능");
+		return "redirect:empResult";
 	}
 	
+	// 단건조회
 	@GetMapping("/info/{empId}")
 	public String info(@PathVariable int empId, Model model) {
-		model.addAttribute("emp", mapper.getEmpInfo(empId));
+		model.addAttribute("emp", empService.getEmpInfo(empId));
 		return "empInfo";
 	}
 	
+	// 수정
 	@GetMapping("/update/{empId}")
 	public String update(@PathVariable int empId) {
-		System.out.println(empId);
 		return "index";
 	}
 	
+	// 삭제
 	@GetMapping("/delete")
 	public String delete(int employeeId, String name) {
-		System.out.println(employeeId + ", " + name);
-		return "index";
+		empService.deleteEmp(employeeId);
+		return "redirect:empList";
 	}
 
-@GetMapping("/")
+	@GetMapping("/")
 	public String test() {
 		return "index";
 	}
