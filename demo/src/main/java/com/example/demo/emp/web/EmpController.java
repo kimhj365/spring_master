@@ -60,10 +60,13 @@ public class EmpController {
 	}
 	
 	// 등록
+	@GetMapping("/insert")
+	public void insert() {}
+	
 	@PostMapping("/insert")
 	public ModelAndView insert(@ModelAttribute("emp") EmpVO vo) {
 		System.out.println(vo);
-		// mapper.insertEmp(vo);
+		empService.insertEmp(vo);
 		
 		// 커맨드 객체는 자동으로 model에 추가되고 view 페이지로 전달됨
 		// 모델이름 = 클래스 첫글자 소문자 / @ModelAttribute로 이름 바꾸기
@@ -71,9 +74,9 @@ public class EmpController {
 		// model.addAttribute("insertResult", "success");
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("result");
+		mv.setViewName("/home");	// view(html) 이름
 		mv.addObject("insertResult", "success");
-		mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+//		mv.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 		return mv;
 	}	
 	

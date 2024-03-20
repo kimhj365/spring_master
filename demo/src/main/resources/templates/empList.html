@@ -17,11 +17,31 @@
 .backColor {
 	background-color: gray
 }
+table {
+	border: 1px solid gray;
+	border-collapse: collapse;
+}
+
+td, th {
+	border: 1px solid gray;
+	border-collapse: collapse;
+	padding: 5px;
+}
+
+th {
+	background-color: lightgray
+}
+
+li {
+	list-style: none;
+	display: inline-block;
+	text-align: center;
+}
 </style>
 
 </head>
 <body>
-	<div layout:fragment="content">
+	<div id="content" layout:fragment="content">
 		사원수 <span th:text="${#lists.size(empList)}">10</span>명 <br>
 		회사이름 <span th:utext="${companyName}">...</span>
 
@@ -44,7 +64,7 @@
 		</form>
 		<!-- 검색폼 끝 -->
 
-		<table>
+		<table id="empList">
 			<tr>
 				<th>No.</th>
 				<th>employee_id</th>
@@ -89,7 +109,7 @@
 					<a class="page-link" th:href="|javascript:gopage(${num})|" th:text="${num}">2</a>
 				</li>
 
-				<li class="page-item" th:if="${paging.endPage} <= ${paging.lastPage} ? disabled">
+				<li class="page-item" th:if="${paging.endPage} < ${paging.lastPage} ? disabled">
 					<a class="page-link" th:href="|javascript:gopage(${paging.endPage + 1})|">Next</a>
 				</li>
 			</ul>
