@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>boardList.html</title>
+</head>
+<body>
+	<h1>게시글 목록</h1>
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>No.</th>
+					<th>title</th>
+					<th>writer</th>
+					<th>write_date</th>
+					<th>click_cnt</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="board, stat: ${boardList}">
+					<td th:text="${stat.count}"></td>
+					<td th:text="${board.title}"></td>
+					<td th:text="${board.writer}"></td>
+					<td th:text="${board.writeDate}"></td>
+					<td th:text="${board.clickCnt}"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+</body>
+</html>
