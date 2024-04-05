@@ -78,8 +78,7 @@
 		 WHERE employee_id = #{employeeId}
 	</select>
 	
-	<insert id="insertEmp" 
-	        parameterType="EmpVO">
+	<insert id="insertEmp" parameterType="EmpVO">
 		<selectKey keyProperty="employeeId"
 		           order="BEFORE"
 		           resultType="int">
